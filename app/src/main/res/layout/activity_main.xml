@@ -19,4 +19,10 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:logo="@drawable/baseline_place_24"
         />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="ca.tanle.android_project_2.HomeFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
