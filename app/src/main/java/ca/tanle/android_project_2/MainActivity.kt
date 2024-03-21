@@ -35,11 +35,11 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.map -> {
                 Toast.makeText(this, "Map", Toast.LENGTH_SHORT).show()
-                changeScreen(MapFragment())
                 locationPermissionRequest.launch(arrayOf(
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_FINE_LOCATION
                 ))
+                changeScreen(MapFragment())
                 true
             }
             R.id.places -> {

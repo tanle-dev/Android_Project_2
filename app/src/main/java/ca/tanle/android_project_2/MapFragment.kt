@@ -7,15 +7,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class MapFragment : Fragment() {
+class MapFragment : Fragment(), OnMapReadyCallback {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private var googleMap: GoogleMap? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +38,12 @@ class MapFragment : Fragment() {
         val mapView = rootView.findViewById<MapView>(R.id.mapView)
         mapView.onCreate(savedInstanceState)
 
+        mapView.getMapAsync(this)
+
         return rootView
     }
 
-    fun onMapReady(googleMap: GoogleMap) {
+    override fun onMapReady(p0: GoogleMap) {
+        this.googleMap = p0
     }
 }
