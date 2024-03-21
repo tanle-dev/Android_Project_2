@@ -13,13 +13,13 @@ import androidx.fragment.app.Fragment
 import ca.tanle.android_project_2.utils.LocationUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 
-class MapFragment(private val context: Context) : Fragment(), OnMapReadyCallback {
+class MapFragment(private val context: Context) : Fragment(), OnMapClickListener, OnMapReadyCallback {
     private var googleMap: GoogleMap? = null
     private var locationPermission = LocationUtils(context)
 
@@ -45,13 +45,19 @@ class MapFragment(private val context: Context) : Fragment(), OnMapReadyCallback
     ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_map, container, false)
-
         val mapView = rootView.findViewById<MapView>(R.id.mapView)
         mapView.onCreate(savedInstanceState)
-
         mapView.getMapAsync(this)
 
         return rootView
+    }
+
+    override fun onMapClick(p0: LatLng) {
+        googleMap?.clear()
+        googleMap?.addMarker(
+            MarkerOptions()
+                .position(p0)
+        )
     }
 
     /**
@@ -74,6 +80,7 @@ class MapFragment(private val context: Context) : Fragment(), OnMapReadyCallback
 
         getDeviceLocation()
         updateLocationUI()
+        googleMap?.setOnMapClickListener(this)
     }
 
     @SuppressLint("MissingPermission")
@@ -85,10 +92,15 @@ class MapFragment(private val context: Context) : Fragment(), OnMapReadyCallback
             if(locationPermission.hasLocationPermission(context)){
                 googleMap?.isMyLocationEnabled = true
                 googleMap?.uiSettings?.isMyLocationButtonEnabled = true
-
+                googleMap?.uiSettings?.isMapToolbarEnabled = true
+                googleMap?.uiSettings?.isZoomControlsEnabled = true
+                googleMap?.uiSettings?.isCompassEnabled = true
             }else{
                 googleMap?.isMyLocationEnabled = false
                 googleMap?.uiSettings?.isMyLocationButtonEnabled = false
+                googleMap?.uiSettings?.isMapToolbarEnabled = false
+                googleMap?.uiSettings?.isZoomControlsEnabled = false
+                googleMap?.uiSettings?.isCompassEnabled = false
                 lastKnownLocation = null
             }
         }catch (e: SecurityException){
@@ -114,7 +126,9 @@ class MapFragment(private val context: Context) : Fragment(), OnMapReadyCallback
                             googleMap?.addMarker(
                                 MarkerOptions()
                                     .title("Your location")
-                                    .position(LatLng(lastKnownLocation!!.latitude, lastKnownLocation!!.longitude))
+                                    .draggable(true)
+                                    .position(LatLng(lastKnownLocation!!.latitude, lastKnownLocation!!.longitude)
+                                    )
                             )
                         }
                     } else {
