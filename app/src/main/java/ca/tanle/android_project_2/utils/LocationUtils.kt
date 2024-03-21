@@ -7,10 +7,12 @@ import android.location.Address
 import android.location.Geocoder
 import androidx.core.content.ContextCompat
 import ca.tanle.android_project_2.data.LocationData
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import java.util.Locale
 
 class LocationUtils(val context: Context) {
+    var fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
     fun hasLocationPermission(context: Context): Boolean{
         return ContextCompat.checkSelfPermission(
             context,

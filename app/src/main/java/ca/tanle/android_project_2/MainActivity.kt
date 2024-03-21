@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import android.Manifest
 import androidx.core.app.ActivityCompat
+import ca.tanle.android_project_2.utils.LocationUtils
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_FINE_LOCATION
                 ))
-                changeScreen(MapFragment())
+                changeScreen(MapFragment(this))
                 true
             }
             R.id.places -> {
