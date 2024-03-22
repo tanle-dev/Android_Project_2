@@ -8,14 +8,36 @@
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
-        android:layout_width="match_parent"
-        android:layout_height="700dp"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Location"
-        />
+        android:gravity="center"
+        >
+        <Button
+            android:id="@+id/currentLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primaryColor"
+            android:text="Current Location"
+            android:layout_margin="2dp"
+            android:background="@drawable/ic_button"
+            />
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="0dp"/>
+        <Button
+            android:id="@+id/saveLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:text="Save Location"
+            android:paddingVertical="14dp"
+            />
+    </LinearLayout>
 </LinearLayout>
+

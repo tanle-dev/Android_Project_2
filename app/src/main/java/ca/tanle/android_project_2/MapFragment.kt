@@ -8,7 +8,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import ca.tanle.android_project_2.utils.LocationUtils
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -19,7 +22,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
-class MapFragment(private val context: Context) : Fragment(), OnMapClickListener, OnMapReadyCallback {
+class MapFragment(private val context: Context) : Fragment(), OnMapClickListener, OnMapReadyCallback, OnClickListener {
     private var googleMap: GoogleMap? = null
     private var locationPermission = LocationUtils(context)
 
@@ -28,15 +31,25 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
 
     // The geographical location where the device is currently located
     private var lastKnownLocation: Location? = null
-    private var likelyPlaceNames: Array<String?> = arrayOfNulls(0)
-    private var likelyPlaceAddresses: Array<String?> = arrayOfNulls(0)
-    private var likelyPlaceAttributions: Array<List<*>?> = arrayOfNulls(0)
-    private var likelyPlaceLatLngs: Array<LatLng?> = arrayOfNulls(0)
+
+    // Button
+    lateinit var currentLocationBtn: Button
+    lateinit var saveLocationBtn: Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
 
+    override fun onClick(v: View?) {
+        when(v?.id){
+            R.id.currentLocation -> {
+                getDeviceLocation()
+            }
+            R.id.saveLocation -> {
+
+            }
+        }
     }
 
     override fun onCreateView(
@@ -45,9 +58,17 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
     ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_map, container, false)
+        currentLocationBtn = rootView.findViewById(R.id.currentLocation)
+        saveLocationBtn = rootView.findViewById(R.id.saveLocation)
+
+//        Show map view in the fragment
         val mapView = rootView.findViewById<MapView>(R.id.mapView)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
+
+//        Add button listener
+        currentLocationBtn.setOnClickListener(this)
+        saveLocationBtn.setOnClickListener(this)
 
         return rootView
     }
@@ -123,13 +144,12 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
                                 CameraUpdateFactory.newLatLngZoom(
                                 LatLng(lastKnownLocation!!.latitude,
                                     lastKnownLocation!!.longitude), DEFAULT_ZOOM.toFloat()))
+                            googleMap?.clear()
                             googleMap?.addMarker(
                                 MarkerOptions()
                                     .title("Your location")
                                     .draggable(true)
-                                    .position(LatLng(lastKnownLocation!!.latitude, lastKnownLocation!!.longitude)
-                                    )
-                            )
+                                    .position(LatLng(lastKnownLocation!!.latitude, lastKnownLocation!!.longitude)))
                         }
                     } else {
                         Log.d(TAG, "Current location is null. Using defaults.")
@@ -148,13 +168,9 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
     companion object {
         private val TAG = MainActivity::class.java.simpleName
         private const val DEFAULT_ZOOM = 15
-        private const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
 
         // Keys for storing activity state.
         private const val KEY_CAMERA_POSITION = "camera_position"
         private const val KEY_LOCATION = "location"
-
-        // Used for selecting the current place.
-        private const val M_MAX_ENTRIES = 5
     }
 }
