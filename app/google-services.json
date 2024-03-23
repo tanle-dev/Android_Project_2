@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "827756734743",
+    "project_id": "favplaces-9c9ba",
+    "storage_bucket": "favplaces-9c9ba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827756734743:android:8fb1503d3e2d0c76676f52",
+        "android_client_info": {
+          "package_name": "ca.tanle.android_project_2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDE7ZPC16DMkqIBGFF49ghyDt4-vpXzVnw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
