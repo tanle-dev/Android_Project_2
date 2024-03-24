@@ -4,4 +4,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hi_there">Hi there,</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="save_title">Save Your Place</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>

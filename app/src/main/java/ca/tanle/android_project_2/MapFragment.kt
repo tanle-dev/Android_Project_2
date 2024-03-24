@@ -12,19 +12,22 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import ca.tanle.android_project_2.utils.LocationUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener
+import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.firestore
 
-class MapFragment(private val context: Context) : Fragment(), OnMapClickListener, OnMapReadyCallback, OnClickListener {
+class MapFragment(private val context: Context) : Fragment(), OnMapClickListener,
+    OnMyLocationButtonClickListener, OnMapReadyCallback, OnClickListener {
     private var googleMap: GoogleMap? = null
     private var locationPermission = LocationUtils(context)
 
@@ -38,7 +41,6 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
     lateinit var currentLocationBtn: Button
     lateinit var saveLocationBtn: Button
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -49,7 +51,8 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
                 getDeviceLocation()
             }
             R.id.saveLocation -> {
-
+                val dialogFragement: DialogFragment = ca.tanle.android_project_2.DialogFragment(context)
+                dialogFragement.show(parentFragmentManager, "Tan Le")
             }
         }
     }
@@ -81,6 +84,13 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
             MarkerOptions()
                 .position(p0)
         )
+        val cameraPosition = CameraPosition.Builder()
+            .target(p0) // Sets the center of the map to Mountain View
+            .zoom(17f)            // Sets the zoom
+            .bearing(90f)         // Sets the orientation of the camera to east
+            .tilt(30f)            // Sets the tilt of the camera to 30 degrees
+            .build()              // Creates a CameraPosition from the builder
+        googleMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
 
     /**
@@ -98,15 +108,16 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
      * Implement OnMapReadyCallback to override onMapReady
      * to set up our map
      */
+    @SuppressLint("MissingPermission")
     override fun onMapReady(p0: GoogleMap) {
         this.googleMap = p0
 
         getDeviceLocation()
         updateLocationUI()
         googleMap?.setOnMapClickListener(this)
+        googleMap?.setOnMyLocationButtonClickListener(this)
     }
 
-    @SuppressLint("MissingPermission")
     private fun updateLocationUI(){
         if(googleMap == null){
             return
@@ -117,23 +128,22 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
                 googleMap?.uiSettings?.isMyLocationButtonEnabled = true
                 googleMap?.uiSettings?.isMapToolbarEnabled = true
                 googleMap?.uiSettings?.isZoomControlsEnabled = true
+                googleMap?.uiSettings?.isZoomGesturesEnabled = true
                 googleMap?.uiSettings?.isCompassEnabled = true
-//                googleMap?.isMyLocationEnabled = true
             }else{
                 googleMap?.isMyLocationEnabled = false
                 googleMap?.uiSettings?.isMyLocationButtonEnabled = false
                 googleMap?.uiSettings?.isMapToolbarEnabled = false
                 googleMap?.uiSettings?.isZoomControlsEnabled = false
+                googleMap?.uiSettings?.isZoomGesturesEnabled = false
                 googleMap?.uiSettings?.isCompassEnabled = false
                 lastKnownLocation = null
-//                googleMap?.isMyLocationEnabled = false
             }
         }catch (e: SecurityException){
             Log.e("Exception: %s", e.message, e)
         }
     }
 
-    @SuppressLint("MissingPermission")
     private fun getDeviceLocation(){
         try {
             if(locationPermission.hasLocationPermission(context)){
@@ -176,5 +186,10 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
         // Keys for storing activity state.
         private const val KEY_CAMERA_POSITION = "camera_position"
         private const val KEY_LOCATION = "location"
+    }
+
+    override fun onMyLocationButtonClick(): Boolean {
+        Toast.makeText(context, "Btn Click", Toast.LENGTH_SHORT).show()
+        return true
     }
 }
