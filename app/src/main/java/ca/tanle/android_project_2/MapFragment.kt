@@ -1,6 +1,5 @@
 package ca.tanle.android_project_2
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.location.Location
@@ -11,7 +10,6 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import ca.tanle.android_project_2.utils.LocationUtils
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -33,13 +31,9 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
     private var lastKnownLocation: Location? = null
 
     // Button
-    lateinit var currentLocationBtn: Button
-    lateinit var saveLocationBtn: Button
+    private lateinit var currentLocationBtn: Button
+    private lateinit var saveLocationBtn: Button
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onClick(v: View?) {
         when(v?.id){
@@ -79,6 +73,7 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
             MarkerOptions()
                 .position(p0)
         )
+        Log.d("MapFragment", "onMapClick: $p0")
     }
 
     /**
@@ -104,7 +99,6 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
         googleMap?.setOnMapClickListener(this)
     }
 
-    @SuppressLint("MissingPermission")
     private fun updateLocationUI(){
         if(googleMap == null){
             return
@@ -129,7 +123,6 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
         }
     }
 
-    @SuppressLint("MissingPermission")
     private fun getDeviceLocation(){
         try {
             if(locationPermission.hasLocationPermission(context)){
