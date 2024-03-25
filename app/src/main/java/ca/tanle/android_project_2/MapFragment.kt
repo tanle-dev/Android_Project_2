@@ -14,14 +14,13 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import ca.tanle.android_project_2.data.LocationDao
-import ca.tanle.android_project_2.data.LocationRepository
+import androidx.fragment.app.FragmentManager
 import ca.tanle.android_project_2.utils.LocationUtils
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener
 import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener
-import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
@@ -40,21 +39,10 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
     private var lastKnownLocation: Location? = null
 
     // Button
-    lateinit var currentLocationBtn: Button
     lateinit var saveLocationBtn: Button
-
-    // Database
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onClick(v: View?) {
         if (locationPermission.hasLocationPermission(context)){
             when(v?.id){
-                R.id.currentLocation -> {
-                    getDeviceLocation()
-                }
                 R.id.saveLocation -> {
                     val dialogFragement: DialogFragment = ca.tanle.android_project_2.DialogFragment(context, )
                     dialogFragement.show(parentFragmentManager, "Tan Le")
@@ -71,16 +59,13 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
     ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_map, container, false)
-        currentLocationBtn = rootView.findViewById(R.id.currentLocation)
         saveLocationBtn = rootView.findViewById(R.id.saveLocation)
 
 //        Show map view in the fragment
-        val mapView = rootView.findViewById<MapView>(R.id.mapView)
-        mapView.onCreate(savedInstanceState)
-        mapView.getMapAsync(this)
+        val mapFragment = childFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
+        mapFragment.getMapAsync(this)
 
 //        Add button listener
-        currentLocationBtn.setOnClickListener(this)
         saveLocationBtn.setOnClickListener(this)
 
         return rootView
@@ -102,30 +87,21 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
     }
 
     /**
-     * Saves the state of the map when the activity is paused.
-     */
-    override fun onSaveInstanceState(outState: Bundle) {
-        googleMap?.let { map ->
-            outState.putParcelable(KEY_CAMERA_POSITION, map.cameraPosition)
-            outState.putParcelable(KEY_LOCATION, lastKnownLocation)
-        }
-        super.onSaveInstanceState(outState)
-    }
-
-    /**
      * Implement OnMapReadyCallback to override onMapReady
      * to set up our map
      */
     @SuppressLint("MissingPermission")
     override fun onMapReady(p0: GoogleMap) {
-        this.googleMap = p0
+        googleMap = p0
 
-        getDeviceLocation()
         updateLocationUI()
+        getDeviceLocation()
+        googleMap?.isMyLocationEnabled = true
         googleMap?.setOnMapClickListener(this)
         googleMap?.setOnMyLocationButtonClickListener(this)
     }
 
+    @SuppressLint("MissingPermission")
     private fun updateLocationUI(){
         if(googleMap == null){
             return
@@ -152,10 +128,11 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
         }
     }
 
+    @SuppressLint("MissingPermission")
     private fun getDeviceLocation(){
         try {
             if(locationPermission.hasLocationPermission(context)){
-                val locationResult = locationPermission.fusedLocationProviderClient.lastLocation
+                val locationResult = LocationServices.getFusedLocationProviderClient(context).lastLocation
                 locationResult.addOnCompleteListener(context as Activity) {
                     task ->
                     if (task.isSuccessful) {
@@ -197,7 +174,6 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
     }
 
     override fun onMyLocationButtonClick(): Boolean {
-        Toast.makeText(context, "Btn Click", Toast.LENGTH_SHORT).show()
         return true
     }
 }

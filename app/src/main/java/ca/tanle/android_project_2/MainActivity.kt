@@ -9,10 +9,8 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import android.Manifest
-import android.widget.Button
 import androidx.core.app.ActivityCompat
 import ca.tanle.android_project_2.data.Graph
-import ca.tanle.android_project_2.utils.LocationUtils
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +41,6 @@ class MainActivity : AppCompatActivity() {
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_FINE_LOCATION
                 ))
-                changeScreen(MapFragment(this))
                 true
             }
             R.id.places -> {
@@ -76,10 +73,9 @@ class MainActivity : AppCompatActivity() {
     val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
-        if(permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
-            && permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true
+        if(permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true
             ){
-
+            changeScreen(MapFragment(this))
         }else{
             // Ask for permission
             val rationaleRequired = ActivityCompat.shouldShowRequestPermissionRationale(
