@@ -21,8 +21,6 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.firestore
 
 class MapFragment(private val context: Context) : Fragment(), OnMapClickListener, OnMapReadyCallback, OnClickListener {
     private var googleMap: GoogleMap? = null
@@ -118,7 +116,6 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
                 googleMap?.uiSettings?.isMapToolbarEnabled = true
                 googleMap?.uiSettings?.isZoomControlsEnabled = true
                 googleMap?.uiSettings?.isCompassEnabled = true
-//                googleMap?.isMyLocationEnabled = true
             }else{
                 googleMap?.isMyLocationEnabled = false
                 googleMap?.uiSettings?.isMyLocationButtonEnabled = false
@@ -126,7 +123,6 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
                 googleMap?.uiSettings?.isZoomControlsEnabled = false
                 googleMap?.uiSettings?.isCompassEnabled = false
                 lastKnownLocation = null
-//                googleMap?.isMyLocationEnabled = false
             }
         }catch (e: SecurityException){
             Log.e("Exception: %s", e.message, e)
