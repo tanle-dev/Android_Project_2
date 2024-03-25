@@ -1,5 +1,7 @@
 package ca.tanle.android_project_2.data
 
+import kotlinx.coroutines.flow.Flow
+
 class LocationRepository(private val locationDao: LocationDao) {
     suspend fun addLocation(location: Location){
         locationDao.addLocation(location)
@@ -9,7 +11,7 @@ class LocationRepository(private val locationDao: LocationDao) {
         return locationDao.getAllLocations()
     }
 
-    suspend fun getALocationById(id: Long): Location{
+    fun getALocationById(id: Long): Flow<Location>{
         return locationDao.getALocationById(id)
     }
 

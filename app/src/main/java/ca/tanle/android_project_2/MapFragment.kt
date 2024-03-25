@@ -14,6 +14,8 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import ca.tanle.android_project_2.data.LocationDao
+import ca.tanle.android_project_2.data.LocationRepository
 import ca.tanle.android_project_2.utils.LocationUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -41,19 +43,25 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
     lateinit var currentLocationBtn: Button
     lateinit var saveLocationBtn: Button
 
+    // Database
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
     override fun onClick(v: View?) {
-        when(v?.id){
-            R.id.currentLocation -> {
-                getDeviceLocation()
+        if (locationPermission.hasLocationPermission(context)){
+            when(v?.id){
+                R.id.currentLocation -> {
+                    getDeviceLocation()
+                }
+                R.id.saveLocation -> {
+                    val dialogFragement: DialogFragment = ca.tanle.android_project_2.DialogFragment(context, )
+                    dialogFragement.show(parentFragmentManager, "Tan Le")
+                }
             }
-            R.id.saveLocation -> {
-                val dialogFragement: DialogFragment = ca.tanle.android_project_2.DialogFragment(context)
-                dialogFragement.show(parentFragmentManager, "Tan Le")
-            }
+        }else{
+            Toast.makeText(context, "Permission denied!", Toast.LENGTH_SHORT).show()
         }
     }
 

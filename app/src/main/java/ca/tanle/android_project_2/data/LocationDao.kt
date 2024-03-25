@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import java.util.concurrent.Flow
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class LocationDao {
@@ -27,5 +27,5 @@ abstract class LocationDao {
 
     // Load location by id
     @Query("Select * from `location-table` where id=:id")
-    abstract suspend fun getALocationById(id: Long): Location
+    abstract fun getALocationById(id: Long): Flow<Location>
 }
