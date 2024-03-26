@@ -7,9 +7,8 @@ import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.os.Looper
-import android.util.Log
 import androidx.core.content.ContextCompat
-import ca.tanle.android_project_2.data.Location
+import ca.tanle.android_project_2.data.LocationData
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -36,7 +35,7 @@ class LocationUtils(val context: Context) {
             override fun onLocationResult(locationResult: LocationResult) {
                 super.onLocationResult(locationResult)
                 locationResult.lastLocation?.let{
-                    val location = Location(latitude = it.latitude, longitude = it.longitude)
+                    val locationData = LocationData(latitude = it.latitude, longitude = it.longitude)
                 }
             }
         }
@@ -47,9 +46,9 @@ class LocationUtils(val context: Context) {
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
     }
 
-    fun reverseGeocodeLocation(location: Location): String{
+    fun reverseGeocodeLocation(locationData: LocationData): String{
         val geocoder = Geocoder(context, Locale.CANADA)
-        val coordinate = LatLng(location.latitude, location.longitude)
+        val coordinate = LatLng(locationData.latitude, locationData.longitude)
         val addresses: MutableList<Address>? = geocoder.getFromLocation(coordinate.latitude, coordinate.longitude, 1)
         return if(addresses?.isNotEmpty() == true){
             addresses[0].getAddressLine(0)

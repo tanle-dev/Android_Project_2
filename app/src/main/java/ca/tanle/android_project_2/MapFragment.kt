@@ -14,14 +14,12 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
+import ca.tanle.android_project_2.data.LocationData
 import ca.tanle.android_project_2.data.LocationViewModal
 import ca.tanle.android_project_2.utils.LocationUtils
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener
-import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
@@ -43,30 +41,7 @@ class MapFragment(private val context: Context,private val locationViewModal: Lo
 
     // Button
     lateinit var saveLocationBtn: Button
-    override fun onClick(v: View?) {
-        if (locationPermission.hasLocationPermission(context)){
-            when(v?.id){
-                R.id.saveLocation -> {
-                    val dialogFragement: DialogFragment = ca.tanle.android_project_2.DialogFragment(context, )
-                    dialogFragement.show(parentFragmentManager, "Tan Le")
-                }
-            }
-        }else{
-            Toast.makeText(context, "Permission denied!", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun addPlace(location: ca.tanle.android_project_2.data.Location) {
-        CoroutineScope(Dispatchers.IO).launch {
-            locationViewModal.addLocation(location)
-            Log.i("MapFragment", "Location added")
-
-            val locations = locationViewModal.getAllLocation()
-//            for (location in locations){
-//                Log.i("MapFragment", "Location: ${location.placeName}")
-//            }
-        }
-    }
+    var currentLocationData: LocationData = LocationData()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -83,6 +58,19 @@ class MapFragment(private val context: Context,private val locationViewModal: Lo
         saveLocationBtn.setOnClickListener(this)
 
         return rootView
+    }
+
+    override fun onClick(v: View?) {
+        if (locationPermission.hasLocationPermission(context)){
+            when(v?.id){
+                R.id.saveLocation -> {
+                    val dialogFragment: DialogFragment = ca.tanle.android_project_2.DialogFragment(context, currentLocationData, locationViewModal)
+                    dialogFragment.show(parentFragmentManager, "Tan Le")
+                }
+            }
+        }else{
+            Toast.makeText(context, "Permission denied!", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onMapClick(p0: LatLng) {
@@ -110,8 +98,6 @@ class MapFragment(private val context: Context,private val locationViewModal: Lo
 
         updateLocationUI()
         getDeviceLocation()
-        updateLocationUI()
-        googleMap?.setOnMapClickListener(this)
     }
 
     @SuppressLint("MissingPermission")
@@ -121,6 +107,7 @@ class MapFragment(private val context: Context,private val locationViewModal: Lo
         }
         try {
             if(locationPermission.hasLocationPermission(context)){
+                googleMap?.setOnMapClickListener(this)
                 googleMap?.isMyLocationEnabled = true
                 googleMap?.uiSettings?.isMyLocationButtonEnabled = true
                 googleMap?.uiSettings?.isMapToolbarEnabled = true
@@ -157,6 +144,9 @@ class MapFragment(private val context: Context,private val locationViewModal: Lo
                                 LatLng(lastKnownLocation!!.latitude,
                                     lastKnownLocation!!.longitude), DEFAULT_ZOOM.toFloat()))
                             googleMap?.clear()
+                            currentLocationData.latitude = lastKnownLocation!!.latitude
+                            currentLocationData.longitude = lastKnownLocation!!.longitude
+                            Log.d("AAA", "${currentLocationData.longitude.toString()}-${currentLocationData.latitude.toString()})")
                             googleMap?.addMarker(
                                 MarkerOptions()
                                     .title("Your location")

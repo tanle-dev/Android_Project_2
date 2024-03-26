@@ -1,25 +1,23 @@
 package ca.tanle.android_project_2.data
 
-import kotlinx.coroutines.flow.Flow
-
 class LocationRepository(private val locationDao: LocationDao) {
-    suspend fun addLocation(location: Location){
-        locationDao.addLocation(location)
+    suspend fun addLocation(locationData: LocationData){
+        locationDao.addLocation(locationData)
     }
 
-    suspend fun getAllLocation(): List<Location>{
+    suspend fun getAllLocation(): List<LocationData>{
         return locationDao.getAllLocations()
     }
 
-    suspend fun getALocationById(id: Long): Location{
+    suspend fun getALocationById(id: Long): LocationData{
         return locationDao.getALocationById(id)
     }
 
-    suspend fun updateLocation(location: Location){
-        locationDao.updateLocation(location)
+    suspend fun updateLocation(locationData: LocationData){
+        locationDao.updateLocation(locationData)
     }
 
-    suspend fun deleteLocation(location: Location){
-        locationDao.deleteLocation(location)
+    suspend fun deleteLocation(locationData: LocationData){
+        locationDao.deleteLocation(locationData)
     }
 }

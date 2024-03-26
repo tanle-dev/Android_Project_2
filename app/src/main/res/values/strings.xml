@@ -9,4 +9,6 @@
     <string name="description">Description</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="lat">Latitude:</string>
+    <string name="lon">Longitude:</string>
 </resources>

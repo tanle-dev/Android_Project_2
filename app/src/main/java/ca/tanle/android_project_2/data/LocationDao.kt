@@ -6,26 +6,25 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class LocationDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    abstract suspend fun addLocation(locationEntity: Location)
+    abstract suspend fun addLocation(locationDataEntity: LocationData)
 
     // Load all locations from database
     @Query("Select * from `location-table`")
-    abstract suspend fun getAllLocations(): List<Location>
+    abstract suspend fun getAllLocations(): List<LocationData>
 
     // Update location
     @Update
-    abstract suspend fun updateLocation(location: Location)
+    abstract suspend fun updateLocation(locationData: LocationData)
 
     // Delete location from database
     @Delete
-    abstract suspend fun deleteLocation(locationEntity: Location)
+    abstract suspend fun deleteLocation(locationDataEntity: LocationData)
 
     // Load location by id
     @Query("Select * from `location-table` where id=:id")
-    abstract suspend fun getALocationById(id: Long): Location
+    abstract suspend fun getALocationById(id: Long): LocationData
 }

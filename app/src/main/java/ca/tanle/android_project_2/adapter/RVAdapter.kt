@@ -2,18 +2,15 @@ package ca.tanle.android_project_2.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.recyclerview.widget.RecyclerView
 import ca.tanle.android_project_2.R
-import ca.tanle.android_project_2.data.Location
+import ca.tanle.android_project_2.data.LocationData
 
-class Adapter(val context: Context, val data: List<Location>, val rsLauncher : ActivityResultLauncher<Intent>): RecyclerView.Adapter<ViewHolder>(){
+class Adapter(val context: Context, val data: List<LocationData>, val rsLauncher : ActivityResultLauncher<Intent>): RecyclerView.Adapter<ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.place_cell, parent, false)
 

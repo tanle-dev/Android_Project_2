@@ -5,24 +5,24 @@ import androidx.lifecycle.ViewModelProvider
 
 class LocationViewModal (private val locationRepository: LocationRepository) : ViewModel() {
 
-    suspend fun addLocation(location: Location){
-        locationRepository.addLocation(location)
+    suspend fun addLocation(locationData: LocationData){
+        locationRepository.addLocation(locationData)
     }
 
-    suspend fun getAllLocation(): List<Location>{
+    suspend fun getAllLocation(): List<LocationData>{
         return locationRepository.getAllLocation()
     }
 
-    suspend fun getALocationById(id: Long): Location{
+    suspend fun getALocationById(id: Long): LocationData{
         return locationRepository.getALocationById(id)
     }
 
-    suspend fun updateLocation(location: Location){
-        locationRepository.updateLocation(location)
+    suspend fun updateLocation(locationData: LocationData){
+        locationRepository.updateLocation(locationData)
     }
 
-    suspend fun deleteLocation(location: Location){
-        locationRepository.deleteLocation(location)
+    suspend fun deleteLocation(locationData: LocationData){
+        locationRepository.deleteLocation(locationData)
     }
 }
 

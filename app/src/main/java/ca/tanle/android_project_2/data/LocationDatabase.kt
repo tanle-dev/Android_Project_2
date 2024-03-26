@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 
 
 @Database(
-    entities = [Location::class],
+    entities = [LocationData::class],
     version = 1,
     exportSchema = false
 )

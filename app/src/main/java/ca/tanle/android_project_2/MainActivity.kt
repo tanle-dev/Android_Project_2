@@ -29,13 +29,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        Request for location permission
-        locationPermissionRequest.launch(arrayOf(
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
-        ))
-
-
 //        TODO: Database
         val repository = LocationRepository(LocationDatabase.getDatabaseInstance(this).locationDao())
         val factory = LocationViewModalFactory(repository)
@@ -61,6 +54,11 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.map -> {
                 Toast.makeText(this, "Map", Toast.LENGTH_SHORT).show()
+//              Request for location permission
+                locationPermissionRequest.launch(arrayOf(
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ))
                 true
             }
             R.id.places -> {
