@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -15,8 +14,9 @@ import ca.tanle.android_project_2.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class LocationAdapter (private val context: Context, private val locationData: List<LocationData>, private val locationViewModal: LocationViewModal) : RecyclerView.Adapter<LocationAdapter.LocationViewHolder>() {
+class LocationAdapter (private val context: Context, private var locationData: List<LocationData>, private val locationViewModal: LocationViewModal) : RecyclerView.Adapter<LocationAdapter.LocationViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.place_cell, parent, false)
         return LocationViewHolder(view)
@@ -75,9 +75,13 @@ class LocationAdapter (private val context: Context, private val locationData: L
 
         private fun deletePlace(locationData: LocationData) {
             CoroutineScope(Dispatchers.IO).launch {
-                locationViewModal.deleteLocation(locationData)
+            locationViewModal.deleteLocation(locationData)
+            withContext(Dispatchers.Main) {
+                this@LocationAdapter.locationData = locationViewModal.getAllLocation()
+                notifyDataSetChanged()
             }
-        }
+    }
+}
     }
 
     override fun getItemCount(): Int {
