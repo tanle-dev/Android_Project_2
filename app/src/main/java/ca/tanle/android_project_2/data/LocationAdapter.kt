@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import ca.tanle.android_project_2.R
 import kotlinx.coroutines.CoroutineScope
@@ -36,6 +37,7 @@ class LocationAdapter (private val context: Context, private val locationData: L
         val location_editBtn: ImageButton = itemView.findViewById(R.id.editBtn)
         val location_moreInfoBtn: ImageButton = itemView.findViewById(R.id.moreInfoBtn)
         val location_deleteBtn: ImageButton = itemView.findViewById(R.id.deleteBtn)
+        val place_item: CardView = itemView.findViewById(R.id.placeItem)
         var detailStatus: Boolean = false
 
         fun bind(locationData: LocationData, position: Int) {
@@ -64,6 +66,10 @@ class LocationAdapter (private val context: Context, private val locationData: L
                 deletePlace(locationData)
                 Toast.makeText(context, "Deleting Place...", Toast.LENGTH_SHORT).show()
                 notifyItemRemoved(position)
+            }
+
+            place_item.setOnClickListener{
+                Toast.makeText(context, "Lat: ${locationData.latitude} - Lng: ${locationData.longitude}", Toast.LENGTH_SHORT).show()
             }
         }
 
