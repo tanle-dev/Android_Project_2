@@ -48,8 +48,16 @@ class ShareFragment(
         // Populate the dropdown with the list of locations
         CoroutineScope(Dispatchers.IO).launch {
             locations = viewModel.getAllLocation()
-            locationNames = locations.map { it.placeName }
             withContext(Dispatchers.Main) {
+                if(locations.isEmpty()) {
+                    shareBtn.isEnabled = false
+                    locationNames = listOf("No locations found")
+                    val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, locationNames)
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    shareDropDown.adapter = adapter
+                    return@withContext
+                }
+                locationNames = locations.map { it.placeName }
                 val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, locationNames)
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 shareDropDown.adapter = adapter
