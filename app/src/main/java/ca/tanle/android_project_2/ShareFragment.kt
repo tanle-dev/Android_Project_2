@@ -71,7 +71,9 @@ class ShareFragment(
             action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_TEXT, "Name: ${selectedLocation.placeName}\n" +
                     "Latitude: ${selectedLocation.latitude}\n" +
-                    "Longitude: ${selectedLocation.longitude}")
+                    "Longitude: ${selectedLocation.longitude}\n" +
+                    "Map: https://www.google.com/maps/search/?api=1&query=${selectedLocation.latitude},${selectedLocation.longitude}"
+            )
             type = "text/plain"
         }
 
