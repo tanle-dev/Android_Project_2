@@ -11,7 +11,6 @@ import android.widget.Button
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import ca.tanle.android_project_2.data.LocationData
-import ca.tanle.android_project_2.data.LocationViewModal
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

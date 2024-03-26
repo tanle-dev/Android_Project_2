@@ -1,7 +1,9 @@
-package ca.tanle.android_project_2.data
+package ca.tanle.android_project_2
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import ca.tanle.android_project_2.data.LocationData
+import ca.tanle.android_project_2.data.LocationRepository
 
 class LocationViewModal (private val locationRepository: LocationRepository) : ViewModel() {
 
@@ -13,7 +15,7 @@ class LocationViewModal (private val locationRepository: LocationRepository) : V
         return locationRepository.getAllLocation()
     }
 
-    suspend fun getALocationById(id: Long): LocationData{
+    suspend fun getALocationById(id: Long): LocationData {
         return locationRepository.getALocationById(id)
     }
 

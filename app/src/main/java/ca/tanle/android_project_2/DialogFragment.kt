@@ -2,18 +2,15 @@ package ca.tanle.android_project_2
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.PopupMenu.OnDismissListener
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import ca.tanle.android_project_2.data.LocationData
-import ca.tanle.android_project_2.data.LocationViewModal
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

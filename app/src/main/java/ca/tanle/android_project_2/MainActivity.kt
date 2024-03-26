@@ -13,19 +13,21 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import ca.tanle.android_project_2.data.LocationDatabase
 import ca.tanle.android_project_2.data.LocationRepository
-import ca.tanle.android_project_2.data.LocationViewModal
-import ca.tanle.android_project_2.data.LocationViewModalFactory
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: LocationViewModal
+//    private lateinit var locationAdapter: LocationAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+//        TODO: Database
         val repository = LocationRepository(LocationDatabase.getDatabaseInstance(this).locationDao())
         val factory = LocationViewModalFactory(repository)
         viewModel = ViewModelProvider(this, factory).get(LocationViewModal::class.java)
+
 
         setSupportActionBar(findViewById(R.id.my_toolbar))
     }
@@ -58,6 +60,11 @@ class MainActivity : AppCompatActivity() {
                 changeScreen(PlacesFragment(this, viewModel))
                 true
             }
+            R.id.about -> {
+                Toast.makeText(this, "About", Toast.LENGTH_SHORT).show()
+                changeScreen(AboutFragment())
+                true
+            }
             R.id.share -> {
                 Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show()
                 changeScreen(ShareFragment(
@@ -66,11 +73,7 @@ class MainActivity : AppCompatActivity() {
                 ))
                 true
             }
-            R.id.about -> {
-                Toast.makeText(this, "About", Toast.LENGTH_SHORT).show()
-                changeScreen(AboutFragment())
-                true
-            }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
