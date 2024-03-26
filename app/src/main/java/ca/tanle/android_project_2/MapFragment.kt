@@ -11,6 +11,7 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import ca.tanle.android_project_2.data.LocationViewModal
 import ca.tanle.android_project_2.utils.LocationUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -19,10 +20,15 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class MapFragment(private val context: Context) : Fragment(), OnMapClickListener, OnMapReadyCallback, OnClickListener {
+class MapFragment(private val context: Context,private val locationViewModal: LocationViewModal) : Fragment(), OnMapClickListener, OnMapReadyCallback, OnClickListener {
     private var googleMap: GoogleMap? = null
     private var locationPermission = LocationUtils(context)
+
+//    TODO: Database
 
     // Default location Los Angeles
     private val defaultLocation = LatLng(34.098907, -118.327759)
@@ -34,18 +40,40 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
     private lateinit var currentLocationBtn: Button
     private lateinit var saveLocationBtn: Button
 
-
     override fun onClick(v: View?) {
-        when(v?.id){
+        when (v?.id) {
             R.id.currentLocation -> {
                 getDeviceLocation()
             }
+
             R.id.saveLocation -> {
+
+                lastKnownLocation?.let {
+                    val location = ca.tanle.android_project_2.data.Location(
+                        placeName = "Your location",
+                        placeDesc = "Your current location",
+                        latitude = it.latitude,
+                        longitude = it.longitude
+                    )
+
+                    this.addPlace(location)
+                }
 
             }
         }
     }
 
+    private fun addPlace(location: ca.tanle.android_project_2.data.Location) {
+        CoroutineScope(Dispatchers.IO).launch {
+            locationViewModal.addLocation(location)
+            Log.i("MapFragment", "Location added")
+
+            val locations = locationViewModal.getAllLocation()
+//            for (location in locations){
+//                Log.i("MapFragment", "Location: ${location.placeName}")
+//            }
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,7 +83,10 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
         currentLocationBtn = rootView.findViewById(R.id.currentLocation)
         saveLocationBtn = rootView.findViewById(R.id.saveLocation)
 
-//        Show map view in the fragment
+//        TODO: DatabaseFun
+
+
+
         val mapView = rootView.findViewById<MapView>(R.id.mapView)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
@@ -99,18 +130,18 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
         googleMap?.setOnMapClickListener(this)
     }
 
-    private fun updateLocationUI(){
-        if(googleMap == null){
+    private fun updateLocationUI() {
+        if (googleMap == null) {
             return
         }
         try {
-            if(locationPermission.hasLocationPermission(context)){
+            if (locationPermission.hasLocationPermission(context)) {
                 googleMap?.isMyLocationEnabled = true
                 googleMap?.uiSettings?.isMyLocationButtonEnabled = true
                 googleMap?.uiSettings?.isMapToolbarEnabled = true
                 googleMap?.uiSettings?.isZoomControlsEnabled = true
                 googleMap?.uiSettings?.isCompassEnabled = true
-            }else{
+            } else {
                 googleMap?.isMyLocationEnabled = false
                 googleMap?.uiSettings?.isMyLocationButtonEnabled = false
                 googleMap?.uiSettings?.isMapToolbarEnabled = false
@@ -118,42 +149,53 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
                 googleMap?.uiSettings?.isCompassEnabled = false
                 lastKnownLocation = null
             }
-        }catch (e: SecurityException){
+        } catch (e: SecurityException) {
             Log.e("Exception: %s", e.message, e)
         }
     }
 
-    private fun getDeviceLocation(){
+    private fun getDeviceLocation() {
         try {
-            if(locationPermission.hasLocationPermission(context)){
+            if (locationPermission.hasLocationPermission(context)) {
                 val locationResult = locationPermission.fusedLocationProviderClient.lastLocation
-                locationResult.addOnCompleteListener(context as Activity) {
-                    task ->
+                locationResult.addOnCompleteListener(context as Activity) { task ->
                     if (task.isSuccessful) {
                         // Set the map's camera position to the current location of the device.
                         lastKnownLocation = task.result
                         if (lastKnownLocation != null) {
                             googleMap?.moveCamera(
                                 CameraUpdateFactory.newLatLngZoom(
-                                LatLng(lastKnownLocation!!.latitude,
-                                    lastKnownLocation!!.longitude), DEFAULT_ZOOM.toFloat()))
+                                    LatLng(
+                                        lastKnownLocation!!.latitude,
+                                        lastKnownLocation!!.longitude
+                                    ), DEFAULT_ZOOM.toFloat()
+                                )
+                            )
                             googleMap?.clear()
                             googleMap?.addMarker(
                                 MarkerOptions()
                                     .title("Your location")
                                     .draggable(true)
-                                    .position(LatLng(lastKnownLocation!!.latitude, lastKnownLocation!!.longitude)))
+                                    .position(
+                                        LatLng(
+                                            lastKnownLocation!!.latitude,
+                                            lastKnownLocation!!.longitude
+                                        )
+                                    )
+                            )
                         }
                     } else {
                         Log.d(TAG, "Current location is null. Using defaults.")
                         Log.e(TAG, "Exception: %s", task.exception)
-                        googleMap?.moveCamera(CameraUpdateFactory
-                            .newLatLngZoom(defaultLocation, DEFAULT_ZOOM.toFloat()))
+                        googleMap?.moveCamera(
+                            CameraUpdateFactory
+                                .newLatLngZoom(defaultLocation, DEFAULT_ZOOM.toFloat())
+                        )
                         googleMap?.uiSettings?.isMyLocationButtonEnabled = false
                     }
                 }
             }
-        }catch (e: SecurityException) {
+        } catch (e: SecurityException) {
             Log.e("Exception: %s", e.message, e)
         }
     }

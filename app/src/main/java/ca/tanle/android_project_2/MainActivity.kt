@@ -11,12 +11,30 @@ import androidx.fragment.app.Fragment
 import android.Manifest
 import android.widget.Button
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.ViewModelProvider
+import ca.tanle.android_project_2.data.LocationAdapter
+import ca.tanle.android_project_2.data.LocationDatabase
+import ca.tanle.android_project_2.data.LocationRepository
+import ca.tanle.android_project_2.data.LocationViewModal
+import ca.tanle.android_project_2.data.LocationViewModalFactory
 import ca.tanle.android_project_2.utils.LocationUtils
 
 class MainActivity : AppCompatActivity() {
+
+    // TODO: Database
+    private lateinit var viewModel: LocationViewModal
+//    private lateinit var locationAdapter: LocationAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+//        TODO: Database
+        val repository = LocationRepository(LocationDatabase.getDatabaseInstance(this).locationDao())
+        val factory = LocationViewModalFactory(repository)
+        viewModel = ViewModelProvider(this, factory).get(LocationViewModal::class.java)
+
 
         setSupportActionBar(findViewById(R.id.my_toolbar))
     }
@@ -41,12 +59,12 @@ class MainActivity : AppCompatActivity() {
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_FINE_LOCATION
                 ))
-                changeScreen(MapFragment(this))
+                changeScreen(MapFragment(this, viewModel))
                 true
             }
             R.id.places -> {
                 Toast.makeText(this, "Places", Toast.LENGTH_SHORT).show()
-                changeScreen(PlacesFragment())
+                changeScreen(PlacesFragment(this, viewModel))
                 true
             }
             R.id.about -> {
@@ -68,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fragmentContainerView, fragment)
+        fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
 
