@@ -27,5 +27,5 @@ abstract class LocationDao {
 
     // Load location by id
     @Query("Select * from `location-table` where id=:id")
-    abstract fun getALocationById(id: Long): Flow<Location>
+    abstract suspend fun getALocationById(id: Long): Location
 }

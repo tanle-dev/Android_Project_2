@@ -16,14 +16,14 @@ data class Location (
     val placeName: String = "",
     @ColumnInfo("desc")
     val placeDesc: String = "",
-//    @ColumnInfo("street")
-//    val street: String = "",
-//    @ColumnInfo("city")
-//    val city: String = "",
-//    @ColumnInfo("state")
-//    val state: String = "",
-//    @ColumnInfo("country")
-//    val country: String = "",
-//    @ColumnInfo("zipcode")
-//    val zipCode: String = "",
+    @ColumnInfo("street")
+    val street: String = "",
+    @ColumnInfo("city")
+    val city: String = "",
+    @ColumnInfo("state")
+    val state: String = "",
+    @ColumnInfo("country")
+    val country: String = "",
+    @ColumnInfo("zipcode")
+    val zipCode: String = "",
 )

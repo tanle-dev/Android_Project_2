@@ -11,7 +11,7 @@ class LocationRepository(private val locationDao: LocationDao) {
         return locationDao.getAllLocations()
     }
 
-    fun getALocationById(id: Long): Flow<Location>{
+    suspend fun getALocationById(id: Long): Location{
         return locationDao.getALocationById(id)
     }
 

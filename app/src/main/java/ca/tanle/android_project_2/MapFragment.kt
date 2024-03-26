@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import ca.tanle.android_project_2.data.LocationViewModal
 import ca.tanle.android_project_2.utils.LocationUtils
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -26,9 +27,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class MapFragment(private val context: Context) : Fragment(), OnMapClickListener,
-    OnMapReadyCallback, OnClickListener {
+class MapFragment(private val context: Context,private val locationViewModal: LocationViewModal) : Fragment(), OnMapClickListener, OnMapReadyCallback, OnClickListener {
     private var googleMap: GoogleMap? = null
     private var locationPermission = LocationUtils(context)
 
@@ -53,6 +56,17 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
         }
     }
 
+    private fun addPlace(location: ca.tanle.android_project_2.data.Location) {
+        CoroutineScope(Dispatchers.IO).launch {
+            locationViewModal.addLocation(location)
+            Log.i("MapFragment", "Location added")
+
+            val locations = locationViewModal.getAllLocation()
+//            for (location in locations){
+//                Log.i("MapFragment", "Location: ${location.placeName}")
+//            }
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -96,9 +110,8 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
 
         updateLocationUI()
         getDeviceLocation()
-        googleMap?.isMyLocationEnabled = true
+        updateLocationUI()
         googleMap?.setOnMapClickListener(this)
-//        googleMap?.setOnMyLocationButtonClickListener(this)
     }
 
     @SuppressLint("MissingPermission")
@@ -132,7 +145,7 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
     private fun getDeviceLocation(){
         try {
             if(locationPermission.hasLocationPermission(context)){
-                val locationResult = LocationServices.getFusedLocationProviderClient(context).lastLocation
+                val locationResult = locationPermission.fusedLocationProviderClient.lastLocation
                 locationResult.addOnCompleteListener(context as Activity) {
                     task ->
                     if (task.isSuccessful) {
