@@ -28,7 +28,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
 class MapFragment(private val context: Context) : Fragment(), OnMapClickListener,
-    OnMyLocationButtonClickListener, OnMapReadyCallback, OnClickListener {
+    OnMapReadyCallback, OnClickListener {
     private var googleMap: GoogleMap? = null
     private var locationPermission = LocationUtils(context)
 
@@ -98,7 +98,7 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
         getDeviceLocation()
         googleMap?.isMyLocationEnabled = true
         googleMap?.setOnMapClickListener(this)
-        googleMap?.setOnMyLocationButtonClickListener(this)
+//        googleMap?.setOnMyLocationButtonClickListener(this)
     }
 
     @SuppressLint("MissingPermission")
@@ -171,9 +171,5 @@ class MapFragment(private val context: Context) : Fragment(), OnMapClickListener
         // Keys for storing activity state.
         private const val KEY_CAMERA_POSITION = "camera_position"
         private const val KEY_LOCATION = "location"
-    }
-
-    override fun onMyLocationButtonClick(): Boolean {
-        return true
     }
 }
