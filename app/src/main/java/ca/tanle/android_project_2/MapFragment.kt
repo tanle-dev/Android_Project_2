@@ -20,6 +20,8 @@ import ca.tanle.android_project_2.utils.LocationUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener
+import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener
+import com.google.android.gms.maps.GoogleMap.OnMyLocationClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
@@ -65,7 +67,7 @@ class MapFragment(private val context: Context,private val locationViewModal: Lo
             when(v?.id){
                 R.id.saveLocation -> {
                     val dialogFragment: DialogFragment = ca.tanle.android_project_2.DialogFragment(context, currentLocationData, locationViewModal)
-                    dialogFragment.show(parentFragmentManager, "Tan Le")
+                    dialogFragment.show(parentFragmentManager, "")
                 }
             }
         }else{
@@ -82,10 +84,14 @@ class MapFragment(private val context: Context,private val locationViewModal: Lo
         val cameraPosition = CameraPosition.Builder()
             .target(p0) // Sets the center of the map to Mountain View
             .zoom(17f)            // Sets the zoom
-            .bearing(90f)         // Sets the orientation of the camera to east
+            .bearing(0f)         // Sets the orientation of the camera to east
             .tilt(30f)            // Sets the tilt of the camera to 30 degrees
             .build()              // Creates a CameraPosition from the builder
         googleMap?.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+        currentLocationData.latitude = String.format("%.6f", p0.latitude).toDouble()
+        currentLocationData.longitude = String.format("%.6f", p0.longitude).toDouble()
+
+        Toast.makeText(context, currentLocationData.latitude.toString(), Toast.LENGTH_SHORT).show()
     }
 
     /**
@@ -146,12 +152,6 @@ class MapFragment(private val context: Context,private val locationViewModal: Lo
                             googleMap?.clear()
                             currentLocationData.latitude = lastKnownLocation!!.latitude
                             currentLocationData.longitude = lastKnownLocation!!.longitude
-                            Log.d("AAA", "${currentLocationData.longitude.toString()}-${currentLocationData.latitude.toString()})")
-                            googleMap?.addMarker(
-                                MarkerOptions()
-                                    .title("Your location")
-                                    .draggable(true)
-                                    .position(LatLng(lastKnownLocation!!.latitude, lastKnownLocation!!.longitude)))
                         }
                     } else {
                         Log.d(TAG, "Current location is null. Using defaults.")
