@@ -68,12 +68,12 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.about -> {
                 Toast.makeText(this, "About", Toast.LENGTH_SHORT).show()
-                changeScreen(ShareFragment())
+                changeScreen(AboutFragment())
                 true
             }
             R.id.share -> {
                 Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show()
-                changeScreen(AboutFragment())
+                changeScreen(ShareFragment())
                 true
             }
 
