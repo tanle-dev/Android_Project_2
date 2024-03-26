@@ -1,39 +1,31 @@
 package ca.tanle.android_project_2
 
-import androidx.appcompat.app.AppCompatActivity
+import android.Manifest
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.Fragment
-import android.Manifest
-import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import ca.tanle.android_project_2.data.LocationAdapter
 import ca.tanle.android_project_2.data.LocationDatabase
 import ca.tanle.android_project_2.data.LocationRepository
 import ca.tanle.android_project_2.data.LocationViewModal
 import ca.tanle.android_project_2.data.LocationViewModalFactory
-import ca.tanle.android_project_2.utils.LocationUtils
 
 class MainActivity : AppCompatActivity() {
-
-    // TODO: Database
     private lateinit var viewModel: LocationViewModal
-//    private lateinit var locationAdapter: LocationAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        TODO: Database
         val repository = LocationRepository(LocationDatabase.getDatabaseInstance(this).locationDao())
         val factory = LocationViewModalFactory(repository)
         viewModel = ViewModelProvider(this, factory).get(LocationViewModal::class.java)
-
 
         setSupportActionBar(findViewById(R.id.my_toolbar))
     }
@@ -54,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.map -> {
                 Toast.makeText(this, "Map", Toast.LENGTH_SHORT).show()
-//              Request for location permission
+                // Request for location permission
                 locationPermissionRequest.launch(arrayOf(
                     Manifest.permission.ACCESS_COARSE_LOCATION,
                     Manifest.permission.ACCESS_FINE_LOCATION
@@ -66,17 +58,19 @@ class MainActivity : AppCompatActivity() {
                 changeScreen(PlacesFragment(this, viewModel))
                 true
             }
+            R.id.share -> {
+                Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show()
+                changeScreen(ShareFragment(
+                    viewModel,
+                    this
+                ))
+                true
+            }
             R.id.about -> {
                 Toast.makeText(this, "About", Toast.LENGTH_SHORT).show()
                 changeScreen(AboutFragment())
                 true
             }
-            R.id.share -> {
-                Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show()
-                changeScreen(ShareFragment())
-                true
-            }
-
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -88,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
-    val locationPermissionRequest = registerForActivityResult(
+    private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
         if(permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
