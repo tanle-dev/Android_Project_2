@@ -19,13 +19,14 @@ import ca.tanle.android_project_2.utils.LocationUtils
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener
+import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
-class MapFragment(private val context: Context,private val locationViewModal: LocationViewModal) : Fragment(), OnMapClickListener, OnMapReadyCallback, OnClickListener {
+class MapFragment(private val context: Context,private val locationViewModal: LocationViewModal) : Fragment(), OnMyLocationButtonClickListener, OnMapClickListener, OnMapReadyCallback, OnClickListener {
     private var googleMap: GoogleMap? = null
     private var locationPermission = LocationUtils(context)
 
@@ -98,6 +99,7 @@ class MapFragment(private val context: Context,private val locationViewModal: Lo
 
         updateLocationUI()
         getDeviceLocation()
+        googleMap?.setOnMyLocationButtonClickListener(this)
     }
 
     @SuppressLint("MissingPermission")
@@ -143,7 +145,6 @@ class MapFragment(private val context: Context,private val locationViewModal: Lo
                                 CameraUpdateFactory.newLatLngZoom(
                                 LatLng(lastKnownLocation!!.latitude,
                                     lastKnownLocation!!.longitude), DEFAULT_ZOOM.toFloat()))
-                            googleMap?.clear()
                             currentLocationData.latitude = lastKnownLocation!!.latitude
                             currentLocationData.longitude = lastKnownLocation!!.longitude
                         }
@@ -168,5 +169,10 @@ class MapFragment(private val context: Context,private val locationViewModal: Lo
         // Keys for storing activity state.
         private const val KEY_CAMERA_POSITION = "camera_position"
         private const val KEY_LOCATION = "location"
+    }
+
+    override fun onMyLocationButtonClick(): Boolean {
+        getDeviceLocation()
+        return true
     }
 }

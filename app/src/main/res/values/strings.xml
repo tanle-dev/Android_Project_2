@@ -13,4 +13,8 @@
     <string name="lon">Longitude:</string>
     <string name="share_title_text">Share your favourite locations with your loved ones.</string>
     <string name="share_btn_text">Share Location</string>
+    <string name="team_members">Team Members</string>
+    <string name="darshan_nariya">Darshan Nariya</string>
+    <string name="abhiraj_shourya">Abhiraj Shourya</string>
+    <string name="tan_le">Tan Le</string>
 </resources>
