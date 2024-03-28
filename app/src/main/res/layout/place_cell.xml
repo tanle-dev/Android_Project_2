@@ -33,7 +33,6 @@
                         android:id="@+id/placeTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/primaryColor"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:text="My Home"
@@ -56,6 +55,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_edit_24"
+                        android:minHeight="48dp"
                         android:backgroundTint="@color/design_default_color_on_primary"
                         />
                     <ImageButton
@@ -63,6 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_arrow_down_24"
+                        android:minHeight="48dp"
                         android:backgroundTint="@color/design_default_color_on_primary"
                         />
                 </LinearLayout>
@@ -97,6 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_delete_24"
+                    android:minHeight="48dp"
                     android:backgroundTint="@color/design_default_color_on_primary"
                     />
             </LinearLayout>
