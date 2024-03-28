@@ -13,20 +13,22 @@
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="serif-monospace"
         android:gravity="center_horizontal|center_vertical"
         android:text="@string/hi_there"
-        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="?attr/colorAccent"
         android:textSize="30sp"
-        android:fontFamily="serif-monospace"
-        android:textAlignment="center" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="serif-monospace"
         android:gravity="center_horizontal|center_vertical"
         android:text="I am FavPlaces\nWhere you can save your good places!"
-        android:textSize="30sp"
-        android:fontFamily="serif-monospace"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnBackground"
+        android:textSize="30sp" />
 </LinearLayout>

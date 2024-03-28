@@ -2,12 +2,17 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Android_Project_2" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <item name="colorPrimary">@color/primaryDarkColor</item>
-        <item name="colorPrimaryVariant">@color/primaryColor</item>
-        <item name="colorOnPrimary">@color/primaryDarkTextColor</item>
-        <item name="colorSecondary">@color/secondaryDarkColor</item>
-        <item name="colorSecondaryVariant">@color/secondaryColor</item>
-        <item name="colorOnSecondary">@color/secondaryDarkTextColor</item>
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
+<!--        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>-->
+<!--        <item name="colorOnPrimary">@color/white</item>-->
+<!--        <item name="colorSecondary">@color/colorSecondary</item>-->
+<!--        <item name="colorSecondaryVariant">@color/colorSecondaryDark</item>-->
+<!--        <item name="colorOnSecondary">@color/white</item>-->
+
+        <item name="android:itemBackground">@color/material_on_surface_emphasis_high_type</item>
+<!--        <item name="android:colorBackground">@color/colorBackground</item>-->
+<!--        <item name="android:colorBackgroundFloating">@color/colorBackground</item>-->
+
+
     </style>
 </resources>

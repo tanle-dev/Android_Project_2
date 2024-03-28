@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="primaryColor">#0077B6</color>
-    <color name="primaryDarkColor">#005A8D</color>
-    <color name="primaryLightColor">#5D9B9B</color>
-    <color name="secondaryColor">#FFA3C4BC</color>
-    <color name="secondaryDarkColor">#FF7A9E95</color>
-    <color name="secondaryLightColor">#FFD6E0D8</color>
-    <color name="primaryTextColor">#FF000000</color>
-    <color name="secondaryTextColor">#FF000000</color>
-    <color name="primaryDarkTextColor">#FFFFFFFF</color>
-    <color name="secondaryDarkTextColor">#FFFFFFFF</color>
 
-    <color name="colorPrimary">@color/primaryColor</color>
-    <color name="colorPrimaryVariant">@color/primaryDarkColor</color>
-    <color name="colorOnPrimary">@color/primaryTextColor</color>
-    <color name="colorSecondary">@color/secondaryColor</color>
-    <color name="colorSecondaryVariant">@color/secondaryDarkColor</color>
-    <color name="colorOnSecondary">@color/secondaryTextColor</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
 
-    <color name="colorPrimaryDark">@color/primaryDarkColor</color>
-    <color name="colorPrimaryLight">@color/primaryLightColor</color>
-    <color name="colorSecondaryDark">@color/secondaryDarkColor</color>
+
+<!--    <color name="colorPrimary">#5755FE</color>-->
+<!--    <color name="colorPrimaryDark">#5755FE</color>-->
+<!--    <color name="colorPrimaryVariant">#5755FE</color>-->
+
+<!--    <color name="colorSecondary">#8B93FF</color>-->
+<!--    <color name="colorSecondaryDark">#8B93FF</color>-->
+<!--    <color name="colorSecondaryVariant">#8B93FF</color>-->
+
+<!--    <color name="colorBackground">#FFF7FC</color>-->
+<!--    <color name="colorItemBackground">#FFFFFF</color>-->
+<!--    <color name="colorSurface">#FFFFFF</color>-->
+<!--    <color name="colorError">#B00020</color>-->
+
+
 </resources>

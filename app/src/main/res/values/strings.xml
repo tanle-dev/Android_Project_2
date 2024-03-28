@@ -17,4 +17,20 @@
     <string name="darshan_nariya">Darshan Nariya</string>
     <string name="abhiraj_shourya">Abhiraj Shourya</string>
     <string name="tan_le">Tan Le</string>
+
+    <!--    home-->
+
+
+    <!--    map-->
+    <string name="map">Map</string>
+    <string name="save_location">Save Location</string>
+
+
+<!--    menu-->
+    <string name="menu">Menu</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_map">Map</string>
+    <string name="menu_places">Places</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_about">About</string>
 </resources>

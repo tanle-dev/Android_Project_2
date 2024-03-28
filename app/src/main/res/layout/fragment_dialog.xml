@@ -12,28 +12,27 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="5sp"
-            android:background="@color/white">
+            app:cardCornerRadius="5sp">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:background="@color/white"
                 android:orientation="vertical">
+
                 <TextView
+                    android:id="@+id/dialogTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="30sp"
+                    android:text="@string/save_title"
                     android:textAlignment="center"
-                    android:textStyle="bold"
-                    android:text="@string/save_title"/>
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:textSize="16sp"
-                    android:textColor="#7A8089"
                     android:textAlignment="center"
                     android:textStyle="bold"
                     android:text="Please enter the address details!"
@@ -49,9 +48,7 @@
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:hint="@string/title"
-                        android:inputType="textCapWords"
-                        android:textColor="#363843"
-                        android:textColorHint="#7A8089">
+                        android:inputType="textCapWords">
                     </androidx.appcompat.widget.AppCompatEditText>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,10 +56,8 @@
                     android:id="@+id/tvErrorMsg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor = "#D32F2F"
                     android:text="* Please enter Title!"
-                    />
+                    android:textSize="16sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -74,9 +69,7 @@
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:hint="@string/description"
-                        android:inputType="textCapWords"
-                        android:textColor="#363843"
-                        android:textColorHint="#7A8089">
+                        android:inputType="textCapWords">
                     </androidx.appcompat.widget.AppCompatEditText>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,37 +78,60 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:orientation="horizontal">
-                    <TextView
+
+                    <Button
                         android:id="@+id/saveBtn"
                         android:layout_width="0dp"
-                        android:layout_weight="0.5"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="4dp"
-                        android:background="@drawable/save_btn_border_bg"
+                        android:layout_weight="0.5"
                         android:gravity="center"
                         android:padding="15dp"
-                        android:textColor="@color/white"
+                        android:text="@string/save"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        android:text="@string/save"
-                        app:cornerRadius="8dp"
-                        />
+                        app:cornerRadius="8dp"/>
 
-                    <TextView
+<!--                    <TextView-->
+<!--                        android:id="@+id/saveBtn"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginEnd="4dp"-->
+<!--                        android:layout_weight="0.5"-->
+<!--                        android:gravity="center"-->
+<!--                        android:padding="15dp"-->
+<!--                        android:text="@string/save"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        app:cornerRadius="8dp"-->
+<!--                        />-->
+
+                    <Button
                         android:id="@+id/cancelBtn"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="0dp"
-                        android:layout_weight="0.5"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:background="@drawable/cancel_btn_border_bg"
+                        android:layout_weight="0.5"
                         android:gravity="center"
                         android:padding="15dp"
-                        android:textColor="@color/primaryColor"
+                        android:text="@string/cancel"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        android:text="@string/cancel"
-                        app:cornerRadius="8dp"
-                        />
+                        app:cornerRadius="8dp" />
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/cancelBtn"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="4dp"-->
+<!--                        android:layout_weight="0.5"-->
+<!--                        android:gravity="center"-->
+<!--                        android:padding="15dp"-->
+<!--                        android:text="@string/cancel"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        app:cornerRadius="8dp" />-->
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
