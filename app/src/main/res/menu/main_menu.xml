@@ -4,19 +4,24 @@
     <item
         android:id="@+id/action_add"
         android:icon="@drawable/ic_menu"
-        app:showAsAction="ifRoom"
-        android:title="Add">
+        android:title="@string/menu"
+        app:showAsAction="ifRoom">
         <menu>
-            <item android:id="@+id/home"
-                android:title="Home" />
-            <item android:id="@+id/map"
-                android:title="Map" />
-            <item android:id="@+id/places"
-                android:title="Places" />
-            <item android:id="@+id/share"
-                android:title="Share" />
-            <item android:id="@+id/about"
-                android:title="About" />
+            <item
+                android:id="@+id/home"
+                android:title="@string/menu_home" />
+            <item
+                android:id="@+id/map"
+                android:title="@string/menu_map" />
+            <item
+                android:id="@+id/places"
+                android:title="@string/menu_places" />
+            <item
+                android:id="@+id/share"
+                android:title="@string/menu_share" />
+            <item
+                android:id="@+id/about"
+                android:title="@string/menu_about" />
         </menu>
     </item>
 </menu>
