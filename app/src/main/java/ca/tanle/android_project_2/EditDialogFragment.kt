@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -23,7 +24,6 @@ class EditDialogFragment(context: Context, private val currentLocation: Location
     lateinit var dTitle: TextView
     lateinit var tfTitle: EditText
     lateinit var tfDesc: EditText
-
     lateinit var tvErrorMsg: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,11 +40,12 @@ class EditDialogFragment(context: Context, private val currentLocation: Location
         val cancelBtn = rootView.findViewById<TextView>(R.id.cancelBtn)
         val saveBtn = rootView.findViewById<TextView>(R.id.saveBtn)
 
+        saveBtn.setText("Update")
+
         cancelBtn.setOnClickListener(this)
         saveBtn.setOnClickListener(this)
 
         dTitle = rootView.findViewById(R.id.dialogTitle)
-
         dTitle.setText("Edit Your Place")
 
         tfTitle = rootView.findViewById(R.id.etTitle)
