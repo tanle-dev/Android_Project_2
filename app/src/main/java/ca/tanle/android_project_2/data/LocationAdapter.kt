@@ -10,14 +10,20 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import ca.tanle.android_project_2.EditDialogFragment
 import ca.tanle.android_project_2.R
 import ca.tanle.android_project_2.LocationViewModal
+import ca.tanle.android_project_2.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class LocationAdapter (private val context: Context, private var locationData: List<LocationData>, private val locationViewModal: LocationViewModal) : RecyclerView.Adapter<LocationAdapter.LocationViewHolder>() {
+class LocationAdapter(
+    private val context: Context,
+    private var locationData: List<LocationData>,
+    private val locationViewModal: LocationViewModal
+) : RecyclerView.Adapter<LocationAdapter.LocationViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.place_cell, parent, false)
         return LocationViewHolder(view)
@@ -25,7 +31,7 @@ class LocationAdapter (private val context: Context, private var locationData: L
 
     override fun onBindViewHolder(holder: LocationViewHolder, position: Int) {
         val location = locationData[position]
-        
+
         holder.bind(location, position)
     }
 
@@ -44,45 +50,59 @@ class LocationAdapter (private val context: Context, private var locationData: L
         fun bind(locationData: LocationData, position: Int) {
             location_place.text = locationData.placeName
             location_desc.text = locationData.placeDesc
-            location_lat.text = "${context.getString(R.string.lat)} ${locationData.latitude.toString()}"
-            location_lon.text = "${context.getString(R.string.lon)} ${locationData.longitude.toString()}"
+            location_lat.text =
+                "${context.getString(R.string.lat)} ${locationData.latitude.toString()}"
+            location_lon.text =
+                "${context.getString(R.string.lon)} ${locationData.longitude.toString()}"
             location_details.visibility = View.GONE
 
-            location_editBtn.setOnClickListener{
-
+            location_editBtn.setOnClickListener {
+                Toast.makeText(context, "Editing Place...", Toast.LENGTH_SHORT).show()
+                editPlace(locationData)
             }
 
-            location_moreInfoBtn.setOnClickListener{
+            location_moreInfoBtn.setOnClickListener {
                 detailStatus = !detailStatus
-                if(detailStatus){
+                if (detailStatus) {
                     location_moreInfoBtn.setImageResource(R.drawable.ic_arrow_up_24)
                     location_details.visibility = View.VISIBLE
-                }else{
+                } else {
                     location_moreInfoBtn.setImageResource(R.drawable.ic_arrow_down_24)
                     location_details.visibility = View.GONE
                 }
             }
 
-            location_deleteBtn.setOnClickListener{
+            location_deleteBtn.setOnClickListener {
                 deletePlace(locationData)
                 Toast.makeText(context, "Deleting Place...", Toast.LENGTH_SHORT).show()
                 notifyItemRemoved(position)
             }
 
-            place_item.setOnClickListener{
-                Toast.makeText(context, "Lat: ${locationData.latitude} - Lng: ${locationData.longitude}", Toast.LENGTH_SHORT).show()
+            place_item.setOnClickListener {
+                Toast.makeText(
+                    context,
+                    "Lat: ${locationData.latitude} - Lng: ${locationData.longitude}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
         private fun deletePlace(locationData: LocationData) {
             CoroutineScope(Dispatchers.IO).launch {
-            locationViewModal.deleteLocation(locationData)
-            withContext(Dispatchers.Main) {
-                this@LocationAdapter.locationData = locationViewModal.getAllLocation()
-                notifyDataSetChanged()
+                locationViewModal.deleteLocation(locationData)
+                withContext(Dispatchers.Main) {
+                    this@LocationAdapter.locationData = locationViewModal.getAllLocation()
+                    notifyDataSetChanged()
+                }
             }
-    }
-}
+        }
+
+        private fun editPlace(locationData: LocationData) {
+            CoroutineScope(Dispatchers.IO).launch {
+                val editDialog = EditDialogFragment(context, locationData, locationViewModal, this@LocationAdapter)
+                editDialog.show((context as MainActivity).supportFragmentManager, "Edit Dialog")
+            }
+        }
     }
 
     override fun getItemCount(): Int {
