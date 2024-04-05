@@ -42,12 +42,10 @@ class MainActivity : AppCompatActivity() {
         // Handle item selection.
         return when (item.itemId) {
             R.id.home -> {
-                Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show()
                 changeScreen(HomeFragment())
                 true
             }
             R.id.map -> {
-                Toast.makeText(this, "Map", Toast.LENGTH_SHORT).show()
                 // Request for location permission
                 locationPermissionRequest.launch(arrayOf(
                     Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -56,17 +54,14 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.places -> {
-                Toast.makeText(this, "Places", Toast.LENGTH_SHORT).show()
                 changeScreen(PlacesFragment(this, viewModel))
                 true
             }
             R.id.about -> {
-                Toast.makeText(this, "About", Toast.LENGTH_SHORT).show()
                 changeScreen(AboutFragment())
                 true
             }
             R.id.share -> {
-                Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show()
                 changeScreen(ShareFragment(
                     viewModel,
                     this
